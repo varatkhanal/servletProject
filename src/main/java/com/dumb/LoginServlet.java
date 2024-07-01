@@ -1,5 +1,6 @@
 package com.dumb;
 
+import jakarta.servlet.RequestDispatcher;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.HttpServlet;
@@ -33,20 +34,27 @@ public class LoginServlet extends HttpServlet {
 		// TODO Auto-generated method stub
 		String username = request.getParameter("username");
 		String password = request.getParameter("password");
-		Connection con=null; 
-		try {
-			con = DabaseOperation.dbConnect();
-		}catch(SQLException e ){
-			e.printStackTrace();
-		}
+//		Connection con=null; 
+//		try {
+//			con = DabaseOperation.dbConnect();
+//		}catch(SQLException e ){
+//			e.printStackTrace();
+//		}
 			
-		if(UserRepository.authenticateUser(username, password, con)) {
-			HttpSession session = request.getSession();
-			session.setAttribute("username", username);
-			response.sendRedirect("bookissue.html");
-		}
-		else	
-			response.sendRedirect("login.html");
+//		if(UserRepository.authenticateUser(username, password, con)) {
+//			HttpSession session = request.getSession();
+//			session.setAttribute("username", username);
+//			response.sendRedirect("bookissue.html");
+//		}
+//		else	
+//			response.sendRedirect("login.html");
+		
+		HttpSession session = request.getSession();
+		session.setAttribute("username", username);
+		session.setAttribute("password", password);
+		
+		RequestDispatcher dispatch = request.getRequestDispatcher("/ForwardServlet");
+		dispatch.forward(request,response);
 		
 	}
 

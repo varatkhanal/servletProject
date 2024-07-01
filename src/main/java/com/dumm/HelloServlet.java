@@ -13,25 +13,12 @@ import java.io.PrintWriter;
  */
 public class HelloServlet extends HttpServlet {
 	private static final long serialVersionUID = 1L;
-       
-    /**
-     * @see HttpServlet#HttpServlet()
-     */
-    public HelloServlet() {
-        super();
-        // TODO Auto-generated constructor stub
-    }
 
-	/**
-	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse response)
-	 */
 	protected void doGet(HttpServletRequest req, HttpServletResponse response) throws ServletException, IOException {		
 		response.sendRedirect("index.html");
 	}
 
-	/**
-	 * @see HttpServlet#doPost(HttpServletRequest request, HttpServletResponse response)
-	 */
+
 	protected void doPost(HttpServletRequest req, HttpServletResponse response) throws ServletException, IOException {
 		// TODO Auto-generated method stub
 		String name = req.getParameter("firstName");
