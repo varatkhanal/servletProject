@@ -1,21 +1,21 @@
 package com.dumb;
 
-import jakarta.servlet.RequestDispatcher;
 import jakarta.servlet.ServletException;
-import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import jakarta.servlet.http.HttpSession;
 
 import java.io.IOException;
-import java.io.PrintWriter;
 
 import java.sql.Connection;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
 import java.sql.SQLException;
 
+import org.apache.catalina.connector.Response;
+
 import com.dumb.dao.DabaseOperation;
-import com.dumb.dao.UserRepository;
 
 public class LoginServlet extends HttpServlet {
 	private static final long serialVersionUID = 1L;
@@ -34,27 +34,40 @@ public class LoginServlet extends HttpServlet {
 		// TODO Auto-generated method stub
 		String username = request.getParameter("username");
 		String password = request.getParameter("password");
-//		Connection con=null; 
-//		try {
-//			con = DabaseOperation.dbConnect();
-//		}catch(SQLException e ){
-//			e.printStackTrace();
-//		}
+		
+		//established connection with database
+		Connection con=null; 
+		try {
+			con = DabaseOperation.dbConnect();
+		}catch(SQLException e ){
+			e.printStackTrace();
+		}
+		
+		//prepare statement
+		String qry = "SELECT * FROM users";
+		
+		try {
+			PreparedStatement preSta = con.prepareStatement(qry);
+			ResultSet rs = (ResultSet) preSta.executeQuery();
+			 
 			
-//		if(UserRepository.authenticateUser(username, password, con)) {
-//			HttpSession session = request.getSession();
-//			session.setAttribute("username", username);
-//			response.sendRedirect("bookissue.html");
-//		}
-//		else	
-//			response.sendRedirect("login.html");
+			if(rs.next()) {
+				System.out.println(rs.getString(1));
+				if(username.equals(rs.getString("username")) && password.equals(rs.getString("password"))) {
+					int interest = 6565;
+					HttpSession session = request.getSession();
+					session.setAttribute("username", username);
+					request.setAttribute("interest",interest);
+					request.getRequestDispatcher("dashboard.jsp").forward(request,response);
+				}else
+					response.sendRedirect("login.html");
+			}
+			
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 		
-		HttpSession session = request.getSession();
-		session.setAttribute("username", username);
-		session.setAttribute("password", password);
-		
-		RequestDispatcher dispatch = request.getRequestDispatcher("/ForwardServlet");
-		dispatch.forward(request,response);
 		
 	}
 

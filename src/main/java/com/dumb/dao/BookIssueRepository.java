@@ -1,11 +1,5 @@
 package com.dumb.dao;
 
-import java.sql.Connection;
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
-import java.sql.SQLException;
-import java.util.ArrayList;
-
 public class BookIssueRepository {
 //	public static boolean writeToDataBase(BookIssue user){
 //		String query = "insert into book_issue(firstName,lastName,gender,program,section,bookTaken) values(?,?,?,?,?,?)";
